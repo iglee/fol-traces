@@ -50,7 +50,7 @@ def replace_greek_with_functions(expr, function_names):
 
 
 
-predicates_pth = "/home/isabelle/fol-pretrain-generator/data/processed_predicates.jsonl"
+predicates_pth = "data/processed_predicates.jsonl"
 predicates_total = read_jsonl_to_list(predicates_pth)
 
 
@@ -101,17 +101,22 @@ def generate_data(rule_datum, data_type="train", temp_dir=None, i_start=0):
 
     return generated
 
-train_rules = "/home/isabelle/fol-pretrain-generator/rules/train_rules.json"
-basic_rules = "/home/isabelle/fol-pretrain-generator/rules/basic_rules.json"
-test_rules = "/home/isabelle/fol-pretrain-generator/rules/test_rules.json"
-dev_rules = "/home/isabelle/fol-pretrain-generator/rules/dev_rules.json"
-tf_test_rules = "/home/isabelle/fol-pretrain-generator/rules/tf_test_rules.json"
-tf_train_rules = "/home/isabelle/fol-pretrain-generator/rules/tf_train_rules.json"
+train_rules = "rules/train_rules.json"
+basic_rules = "rules/basic_rules.json"
+test_rules = "rules/test_rules.json"
+dev_rules = "rules/dev_rules.json"
+tf_test_rules = "rules/tf_test_rules.json"
+tf_train_rules = "rules/tf_train_rules.json"
 
 rules_data = {}
 
 for rules in [basic_rules, test_rules, dev_rules, tf_test_rules, tf_train_rules, train_rules]:
     filename_without_ext = os.path.splitext(os.path.basename(rules))[0]
+
+    # basic_rules.json is optional: no script in this repo writes it, and
+    # scripts/generate_data_runs.py skips the "basic" split.
+    if rules == basic_rules and not os.path.exists(rules):
+        continue
 
     with open(rules, 'r') as f:
         rules_data[filename_without_ext] = json.load(f)

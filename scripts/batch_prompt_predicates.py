@@ -4,7 +4,7 @@ import random
 from src.fol_util import read_file_into_list
 from src.gpt_util import process_prompt, batch_prompt_items, save_batch_list_to_jsonl, start_batch_jobs_from_dir
 
-directory = '/home/isabelle/fol-pretrain-generator/rules/predicates' 
+directory = 'rules/predicates'
 prompt = "Generate 5 sets of predicates about {}. e.g. {}, {}, {}. Make sure to generate 4 predicates per set.\nSimply list the data and nothing else. Please format it as a jsonl, with {{\"predicates\": [PREDICATES], \"topic\": [TOPIC]}}"
 model = "gpt-4o"
 
